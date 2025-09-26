@@ -84,13 +84,13 @@ const VenueMap = ({ onShowDetail }) => {
       id: 'room-c5',
       name: 'Room C5',
       sqft: '150 m2',
-      labelPosition: { top: '5%', left: '60%' },
+      labelPosition: { top: '45.4%', left: '47.7%' }  ,
       type: 'venue-image',
       description: 'Meeting room and classroom space',
       imageUrl: '/roomC5_hover.png',
       imageSize: { width: '80px', height: '80px' },
       imageRotation: 0, // degrees
-      imageScale: 1.0 // individual scale
+      imageScale: 0.3 // individual scale
     },
   ];
 
@@ -182,7 +182,7 @@ const VenueMap = ({ onShowDetail }) => {
 
             <div className="popup-content">
               <div className="popup-left">
-                <h3>Detail Ruangan</h3>
+                <h3>{selectedArea.name}</h3>
 
                 <div className="detail-specs">
                   <p><strong>Luasan Ruangan:</strong> 1.256 m2</p>
@@ -207,7 +207,7 @@ const VenueMap = ({ onShowDetail }) => {
 
               <div className="popup-right">
                 <div className="zone-diagram">
-                  <img src="/new-venue-map.png" alt="Zone Diagram" />
+                  <img src={selectedArea.imageUrl || "/new-venue-map.png"} alt={selectedArea.name} />
                 </div>
               </div>
             </div>

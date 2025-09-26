@@ -3,50 +3,69 @@ import './VenueDetail.css';
 
 const VenueDetail = ({ onBack }) => {
   const [selectedDate, setSelectedDate] = useState(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [animationDirection, setAnimationDirection] = useState('');
 
   // Calendar data for January 2026
   const calendarDays = [
-    { date: 1, available: false, status: 'unavailable' },
-    { date: 2, available: true, status: 'available' },
-    { date: 3, available: true, status: 'available' },
-    { date: 4, available: false, status: 'unavailable' },
-    { date: 5, available: false, status: 'unavailable' },
-    { date: 6, available: true, status: 'available' },
-    { date: 7, available: true, status: 'available' },
-    { date: 8, available: true, status: 'available' },
-    { date: 9, available: true, status: 'available' },
-    { date: 10, available: true, status: 'available' },
-    { date: 11, available: true, status: 'available' },
-    { date: 12, available: true, status: 'available' },
-    { date: 13, available: true, status: 'available' },
-    { date: 14, available: true, status: 'available' },
-    { date: 15, available: true, status: 'available' },
-    { date: 16, available: true, status: 'available' },
-    { date: 17, available: true, status: 'available' },
-    { date: 18, available: true, status: 'available' },
-    { date: 19, available: true, status: 'available' },
-    { date: 20, available: true, status: 'available' },
-    { date: 21, available: true, status: 'available' },
-    { date: 22, available: true, status: 'available' },
-    { date: 23, available: true, status: 'available' },
-    { date: 24, available: true, status: 'available' },
-    { date: 25, available: false, status: 'unavailable' },
-    { date: 26, available: false, status: 'unavailable' },
-    { date: 27, available: false, status: 'unavailable' },
-    { date: 28, available: false, status: 'unavailable' },
-    { date: 29, available: false, status: 'unavailable' },
-    { date: 30, available: false, status: 'unavailable' },
-    { date: 31, available: false, status: 'unavailable' },
+    { date: 1, available: false, status: 'booked-admin', label: 'Active (Administration Process)' },
+    { date: 2, available: true, status: 'available', label: 'Available' },
+    { date: 3, available: true, status: 'available', label: 'Available' },
+    { date: 4, available: false, status: 'booked-used', label: 'Active (In Use)' },
+    { date: 5, available: false, status: 'booked-used', label: 'Active (In Use)' },
+    { date: 6, available: true, status: 'available', label: 'Available' },
+    { date: 7, available: true, status: 'available', label: 'Available' },
+    { date: 8, available: false, status: 'deadline-passed', label: 'Booking Deadline Passed' },
+    { date: 9, available: true, status: 'available', label: 'Available' },
+    { date: 10, available: true, status: 'available', label: 'Available' },
+    { date: 11, available: false, status: 'booked-admin', label: 'Active (Administration Process)' },
+    { date: 12, available: true, status: 'available', label: 'Available' },
+    { date: 13, available: true, status: 'available', label: 'Available' },
+    { date: 14, available: true, status: 'available', label: 'Available' },
+    { date: 15, available: false, status: 'booked-used', label: 'Active (In Use)' },
+    { date: 16, available: true, status: 'available', label: 'Available' },
+    { date: 17, available: true, status: 'available', label: 'Available' },
+    { date: 18, available: false, status: 'deadline-passed', label: 'Booking Deadline Passed' },
+    { date: 19, available: true, status: 'available', label: 'Available' },
+    { date: 20, available: true, status: 'available', label: 'Available' },
+    { date: 21, available: false, status: 'booked-admin', label: 'Active (Administration Process)' },
+    { date: 22, available: true, status: 'available', label: 'Available' },
+    { date: 23, available: true, status: 'available', label: 'Available' },
+    { date: 24, available: true, status: 'available', label: 'Available' },
+    { date: 25, available: false, status: 'booked-used', label: 'Active (In Use)' },
+    { date: 26, available: false, status: 'booked-used', label: 'Active (In Use)' },
+    { date: 27, available: false, status: 'deadline-passed', label: 'Booking Deadline Passed' },
+    { date: 28, available: false, status: 'booked-admin', label: 'Active (Administration Process)' },
+    { date: 29, available: false, status: 'booked-used', label: 'Active (In Use)' },
+    { date: 30, available: false, status: 'deadline-passed', label: 'Booking Deadline Passed' },
+    { date: 31, available: true, status: 'available', label: 'Available' },
   ];
 
   const venueImages = [
-    '/venue-map.png',
-    '/venue-map.png',
-    '/venue-map.png',
-    '/venue-map.png',
-    '/venue-map.png',
-    '/venue-map.png'
+    '/venueImage1.png',
+    '/venueImage2.png',
+    '/venueImage3.png'
   ];
+
+  const nextImage = () => {
+    setAnimationDirection('slide-in-right');
+    setTimeout(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % venueImages.length);
+      setTimeout(() => setAnimationDirection(''), 50);
+    }, 50);
+  };
+
+  const prevImage = () => {
+    setAnimationDirection('slide-in-left');
+    setTimeout(() => {
+      setCurrentImageIndex((prev) => (prev - 1 + venueImages.length) % venueImages.length);
+      setTimeout(() => setAnimationDirection(''), 50);
+    }, 50);
+  };
+
+  const goToImage = (index) => {
+    setCurrentImageIndex(index);
+  };
 
   return (
     <div className="venue-detail-container">
@@ -72,12 +91,27 @@ const VenueDetail = ({ onBack }) => {
           </div>
 
           <div className="venue-gallery">
-            <div className="gallery-grid">
-              {venueImages.map((image, index) => (
-                <div key={index} className="gallery-item">
-                  <img src={image} alt={`Student Center ${index + 1}`} />
+            <div className="carousel-container">
+              <div className="carousel-wrapper">
+                <button className="carousel-btn prev-btn" onClick={prevImage}>
+                  ←
+                </button>
+                <div className="carousel-main">
+                  <img
+                    src={venueImages[currentImageIndex]}
+                    alt={`Student Center ${currentImageIndex + 1}`}
+                    className={`carousel-main-image ${animationDirection}`}
+                  />
+                  <img
+                    src={venueImages[(currentImageIndex + 1) % venueImages.length]}
+                    alt={`Student Center ${((currentImageIndex + 1) % venueImages.length) + 1}`}
+                    className={`carousel-main-image ${animationDirection}`}
+                  />
                 </div>
-              ))}
+                <button className="carousel-btn next-btn" onClick={nextImage}>
+                  →
+                </button>
+              </div>
             </div>
           </div>
 
@@ -156,13 +190,25 @@ const VenueDetail = ({ onBack }) => {
 
             <div className="calendar-legend">
               <div className="legend-item">
+                <div className="legend-color booked-admin"></div>
+                <span>Active (Administration Process)</span>
+              </div>
+              <div className="legend-item">
+                <div className="legend-color booked-used"></div>
+                <span>Active (In Use)</span>
+              </div>
+              <div className="legend-item">
                 <div className="legend-color available"></div>
                 <span>Available</span>
               </div>
               <div className="legend-item">
-                <div className="legend-color unavailable"></div>
-                <span>Libur</span>
+                <div className="legend-color deadline-passed"></div>
+                <span>Booking Deadline Passed</span>
               </div>
+            </div>
+
+            <div className="calendar-instruction">
+              *Select the date you want to book by clicking on the date
             </div>
           </div>
         </div>
